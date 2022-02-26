@@ -26,7 +26,7 @@ describe('sauce Lab Demo', () => {
     afterAll( async ()=>{
         // closing browser
         await page.screenshot({
-      path: `screenshot-${browser.name()}.png`,
+      path: `screenshot-.png`,
     });
         await context.close();
         await browser.close();
