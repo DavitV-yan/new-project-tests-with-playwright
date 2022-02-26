@@ -20,6 +20,9 @@ describe('sauce Lab Demo', () => {
             browser = await browserType.launch({headless: false});
             context = await browser.newContext({ ...iPhone13ProMax});
             }
+
+        browser = await chromium.launch({ headless: true });
+        context = await browser.newContext();
         page = await context.newPage();
         homePage = new HomePage(page);
         loginPage = new LoginPage(page);
@@ -33,6 +36,8 @@ describe('sauce Lab Demo', () => {
         await page.screenshot({
             path: `screenshot-${browserType.name()}.png`,
           });
+           path: `screenshot-.png`
+        });
         await context.close();
         await browser.close();
     });
@@ -46,8 +51,4 @@ describe('sauce Lab Demo', () => {
         await homePage.ClickOnAddToCard();
         
         expect(await homePage.GetTextOfCard()).toBe("1");
-     })
-    
-    
-
-    });
+     });
