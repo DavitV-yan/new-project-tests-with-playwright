@@ -1,21 +1,25 @@
 // https://jestjs.io/docs/expect
 
-const { chromium, webkit, firefox } = require('playwright');
+const { webkit, chromium, firefox, devices } = require("playwright");
+const iPhone13ProMax = devices["iPhone 13 Pro Max"];
 const HomePage = require('../pages/HomePage');
 const LoginPage = require('../pages/LoginPage');
 
 describe('sauce Lab Demo', () => {
-    jest.setTimeout(30000);
+    jest.setTimeout(3000);
     let browser = null;
     let context = null;
     let page = null;
     let homePage  = null;
     let loginPage  = null;
+    let browserType = null;
 
     beforeAll( async ()=>{
         // we launch browser and navigate to the loginpage
-        browser = await chromium.launch({ headless: false });
-        context = await browser.newContext();
+        for( browserType of [chromium, webkit]){
+            browser = await browserType.launch({headless: false});
+            context = await browser.newContext({ ...iPhone13ProMax});
+            }
         page = await context.newPage();
         homePage = new HomePage(page);
         loginPage = new LoginPage(page);
@@ -24,7 +28,11 @@ describe('sauce Lab Demo', () => {
     });
 
     afterAll( async ()=>{
+        jest.setTimeout(5000);
         // closing browser
+        await page.screenshot({
+            path: `screenshot-${browserType.name()}.png`,
+          });
         await context.close();
         await browser.close();
     });
