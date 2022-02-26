@@ -1,0 +1,27 @@
+{
+  "name": "new-project-tests-with-playwright",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavitV-yan/new-project-tests-with-playwright.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DavitV-yan/new-project-tests-with-playwright/issues"
+  },
+  "homepage": "https://github.com/DavitV-yan/new-project-tests-with-playwright#readme",
+  "dependencies": {
+    "jest": "^27.2.4",
+    "playwright": "^1.19.2"
+  }
+}
