@@ -1,54 +1,54 @@
-// https://jestjs.io/docs/expect
 
-const { webkit, chromium, firefox, devices } = require("playwright");
+const {chromium, webkit, firefox, devices} = require('playwright');
+const { test, expect } = require('@playwright/test');
+
 const iPhone13ProMax = devices["iPhone 13 Pro Max"];
+
 const HomePage = require('../pages/HomePage');
 const LoginPage = require('../pages/LoginPage');
 
-describe('sauce Lab Demo', () => {
-    jest.setTimeout(3000);
+test.describe('sauce Lab Demo', () => {
     let browser = null;
     let context = null;
     let page = null;
-    let homePage  = null;
-    let loginPage  = null;
+    let homePage = null;
+    let loginPage = null;
     let browserType = null;
 
-    beforeAll( async ()=>{
-        // we launch browser and navigate to the loginpage
-        for( browserType of [chromium, webkit]){
+    test.beforeEach(async () => {
+        for (browserType of [chromium, webkit]) {
             browser = await browserType.launch({headless: false});
-            context = await browser.newContext({ ...iPhone13ProMax});
-            }
+            context = await browser.newContext({
+                ...iPhone13ProMax,
+                locale: "de-DE",
+            });
+            page = await context.newPage();
 
-        browser = await chromium.launch({ headless: true });
-        context = await browser.newContext();
-        page = await context.newPage();
-        homePage = new HomePage(page);
-        loginPage = new LoginPage(page);
-        await loginPage.navigate();
-        await loginPage.login('standard_user','secret_sauce','https://www.saucedemo.com/inventory.html');
+            homePage = new HomePage(page);
+            loginPage = new LoginPage(page);
+            await loginPage.navigate();
+            await loginPage.login('standard_user', 'secret_sauce', 'https://www.saucedemo.com/inventory.html');
+            await page.screenshot({
+                path: `screenshot-${browserType.name()}.png`,
+            });
+        }
     });
 
-    afterAll( async ()=>{
-        jest.setTimeout(5000);
-        // closing browser
-        await page.screenshot({
-            path: `screenshot-${browserType.name()}.png`,
-          });
-           path: `screenshot-.png`
-        });
+    test.afterEach(async () => {
         await context.close();
         await browser.close();
     });
 
-    it('Should be able to login', async() => {
-        
+    test('Should be able to login', async () => {
+
         expect(await page.title()).not.toBeNull();
-     })
-    
-     it('should be able to add items to card', async() => {
+    })
+
+    test('should be able to add items to card', async () => {
         await homePage.ClickOnAddToCard();
-        
+
         expect(await homePage.GetTextOfCard()).toBe("1");
-     });
+    })
+
+
+});
