@@ -17,7 +17,7 @@ test.describe('sauce Lab Demo', () => {
 
     test.beforeEach(async () => {
         for (browserType of [chromium, webkit]) {
-            browser = await browserType.launch({headless: false});
+            browser = await browserType.launch({headless: true});
             context = await browser.newContext({
                 ...iPhone13ProMax,
                 locale: "de-DE",
