@@ -13,7 +13,7 @@ jobs:
          node-version: '14'
       - uses: microsoft/playwright-github-action@v1
       - run: npm install
-      - run: npm run test
+      - run: npx playwright test  
       - uses: actions/upload-artifact@v2
         with:
           name: screenshots
